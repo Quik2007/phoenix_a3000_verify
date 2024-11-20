@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phoenix_a3000_verify"
+version = "0.1.0"
+description = "Desiption of your package"
+readme = "README.md"
+authors = [{name = "Quinten Wolff", email = "quinten@daskju.com"}]
+dependencies = [
+    "rich",
+    "pdfreader"
+]
+
+[tool.setuptools.packages.find]
+where = ["phoenix_a3000_verify"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
