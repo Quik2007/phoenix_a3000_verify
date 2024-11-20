@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [tool.setuptools.packages.find]
-where = ["phoenix_a3000_verify"]
+where = ["."]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
