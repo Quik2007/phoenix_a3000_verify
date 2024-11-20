@@ -1,6 +1,6 @@
 from pdfreader import SimplePDFViewer
 from rich import print
-from utils import Aufträge, get_decimal
+from .utils import Aufträge, get_decimal
 
 
 def convert_pdf(file: bytes):

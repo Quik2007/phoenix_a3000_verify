@@ -1,6 +1,6 @@
-from a3000_csv_converter import convert_csv
-from phoenix_pdf_converter import convert_pdf
-from utils import Aufträge
+from .a3000_csv_converter import convert_csv
+from .phoenix_pdf_converter import convert_pdf
+from .utils import Aufträge
 from decimal import Decimal
 
 

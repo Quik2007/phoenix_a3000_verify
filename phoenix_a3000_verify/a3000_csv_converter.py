@@ -1,6 +1,6 @@
 import csv
 from warnings import warn
-from utils import get_decimal, FormatChange, Aufträge
+from .utils import get_decimal, FormatChange, Aufträge
 
 
 class CSVFormatChange(FormatChange):
