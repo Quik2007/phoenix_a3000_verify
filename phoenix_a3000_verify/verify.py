@@ -17,6 +17,6 @@ def verify(
         if auftrag not in lieferungen_aufträge:
             unbekannte_aufträge[auftrag] = rechnungen_aufträge[auftrag]
         elif preis != lieferungen_aufträge[auftrag]:
-            aufträge_mit_preisunterschieden = (preis, lieferungen_aufträge[preis])
+            aufträge_mit_preisunterschieden = (preis, lieferungen_aufträge[auftrag])
 
     return lieferungen_aufträge, aufträge_mit_preisunterschieden
