@@ -9,6 +9,8 @@ class CSVFormatChange(FormatChange):
 
 
 def convert_csv(file: bytes) -> Aufträge:
+    if isinstance(file, bytes):
+        file = file.decode("utf-8").splitlines()
     csv_reader = csv.reader(file, delimiter=";")
 
     aufträge: Aufträge = {}
