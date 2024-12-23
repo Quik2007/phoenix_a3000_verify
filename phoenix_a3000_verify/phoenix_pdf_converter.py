@@ -30,6 +30,7 @@ def convert_pdf(file: bytes):
             aufträge[auftrag_nummer] = decimal
         if ende:
             break
+    return aufträge
 
 
 if __name__ == "__main__":
