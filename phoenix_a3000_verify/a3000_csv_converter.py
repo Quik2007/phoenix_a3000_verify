@@ -1,6 +1,15 @@
 import csv
 from warnings import warn
-from .utils import get_decimal, FormatChange, Aufträge
+from .utils import get_decimal, FormatChange, Aufträge, UserError
+from charset_normalizer import from_bytes
+
+def detect_and_decode(data: bytes) -> str:
+    try:
+        result = from_bytes(data).best()
+        result = str(result) if result else data.decode("utf-8", errors="replace")
+    except Exception as e:
+        raise UserError("Keine lesbare CSV-Datei")
+    return result
 
 
 class CSVFormatChange(FormatChange):
@@ -10,7 +19,9 @@ class CSVFormatChange(FormatChange):
 
 def convert_csv(file: bytes) -> Aufträge:
     if isinstance(file, bytes):
-        file = file.decode("utf-8").splitlines()
+        file = detect_and_decode(file).splitlines()
+    elif not isinstance(file, list):
+        raise ValueError
     csv_reader = csv.reader(file, delimiter=";")
 
     aufträge: Aufträge = {}
@@ -21,10 +32,11 @@ def convert_csv(file: bytes) -> Aufträge:
                 warn("Zahl der Reihen in der CSV-Datei geändert", CSVFormatChange)
             assert row[0] == "LfdNr"
             assert row[1] == "Lieferant"
-            assert row[2] == "�"
+            # the header of row[2] is converted to an empty string using Windows-1252, but to an unknown char (�) in utf-8
             assert row[3] == "#"
             assert row[4] == "Sendedatum"
-            assert row[5] == "letzte �nderung"
+            # row[5] should be "letzte Änderung". However, in UTF-8 it's "�" and in Windows-1252 "letzte ánderung"
+            assert row[5].lower().startswith("letzte ") and row[5].endswith("nderung")
             assert row[6] == "R"
             assert row[7] == "Auftragsart"
             assert row[8] == "Status"
