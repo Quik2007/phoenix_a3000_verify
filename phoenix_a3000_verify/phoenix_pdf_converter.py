@@ -1,6 +1,6 @@
 from pdfreader import SimplePDFViewer
 from rich import print
-from .utils import Aufträge, get_decimal
+from .utils import Aufträge, get_decimal, UserError
 
 
 def convert_pdf(file: bytes):
@@ -30,6 +30,8 @@ def convert_pdf(file: bytes):
             aufträge[auftrag_nummer] = decimal
         if ende:
             break
+    if not ende:
+        raise UserError("Ungültiges PDF")
     return aufträge
 
 
