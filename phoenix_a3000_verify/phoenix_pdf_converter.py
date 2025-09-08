@@ -15,16 +15,19 @@ def convert_pdf(file: bytes):
         print("Splitted texts: ", texts)
         i = 0
         for auftrag in texts:
+            if auftrag[0] == "--":
+                auftrag = auftrag[1:]
             if auftrag[0] == "SUMME":
                 ende = True
                 break
+            print(auftrag)
             i += 1
-            index_nummer = 3 if i == 1 else 2
+            index_nummer = 2
 
             auftrag_nummer = auftrag[index_nummer]
             assert len(auftrag_nummer) == 6
 
-            preis_str = auftrag[-2]
+            preis_str = auftrag[4]
             decimal = get_decimal(preis_str)
 
             aufträge[auftrag_nummer] = decimal
