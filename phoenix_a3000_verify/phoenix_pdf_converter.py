@@ -38,9 +38,13 @@ def convert_pdf(file: bytes):
     return aufträge
 
 
+def sort_aufträge(aufträge):
+    return dict(sorted(aufträge.items(), key=lambda item: item[1], reverse=True))
+
+
 if __name__ == "__main__":
     fd = open("rechnung.pdf", "rb")
-    aufträge = convert_pdf()
+    aufträge = convert_pdf(fd.read())
 
     print(aufträge)
     print(f"Insgesamt {len(aufträge)} Aufträge")
