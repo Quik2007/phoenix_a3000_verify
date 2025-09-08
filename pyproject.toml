@@ -10,7 +10,8 @@ readme = "README.md"
 authors = [{name = "Quinten Wolff", email = "quinten@daskju.com"}]
 dependencies = [
     "rich",
-    "pdfreader"
+    "pdfreader",
+    "charset_normalizer"
 ]
 
 [tool.setuptools.packages.find]
