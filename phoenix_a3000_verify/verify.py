@@ -5,11 +5,18 @@ from decimal import Decimal
 
 
 def verify(
-    phoenix_rechnung_pdf: bytes, a3000_lieferungen_csv: bytes
+    phoenix_rechnung_pdfs: list[bytes], a3000_lieferungen_csvs: list[bytes]
 ) -> tuple[Aufträge, dict[str, tuple[Decimal, Decimal]]]:
-    lieferungen_aufträge = convert_csv(a3000_lieferungen_csv)
-    rechnungen_aufträge = convert_pdf(phoenix_rechnung_pdf)
-
+    lieferungen_aufträge = {
+        k: v
+        for csv_bytes in a3000_lieferungen_csvs
+        for k, v in convert_csv(csv_bytes).items()
+    }
+    rechnungen_aufträge = {
+        k: v
+        for pdf_bytes in phoenix_rechnung_pdfs
+        for k, v in convert_pdf(pdf_bytes).items()
+    }
     unbekannte_aufträge: Aufträge = {}
     aufträge_mit_preisunterschieden: dict[str, tuple[Decimal, Decimal]] = {}
 
