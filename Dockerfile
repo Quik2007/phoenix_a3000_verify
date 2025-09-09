@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4
+# syntax=docker/dockerfile:1
 FROM python:3.10-alpine AS base
 
 # Install required dependencies: openjdk8, git, ssh (for cloning), bash, etc.
@@ -15,19 +15,15 @@ RUN apk add --no-cache \
 # Create a working directory
 WORKDIR /app
 
-# Clone repos
+# Clone public repo
 RUN git clone https://github.com/anvil-works/routing \
     && mv routing 3PIDO5P3H4VPEMPL
 
-RUN --mount=type=secret,id=ssh_key \
-    mkdir -p /root/.ssh \
-    && tr -d '\r' < /run/secrets/ssh_key > /root/.ssh/id_ed25519 \
-    && chmod 600 /root/.ssh/id_ed25519 \
+# Clone private repo with SSH mount
+RUN --mount=type=ssh \
+    mkdir -p -m 0700 /root/.ssh \
     && ssh-keyscan -p 2222 anvil.works >> /root/.ssh/known_hosts \
-    && GIT_SSH_COMMAND="ssh -i /root/.ssh/id_ed25519" \
-       git clone ssh://quintenwolff%40outlook.de@anvil.works:2222/LT5M56WDZC6O5IVA.git \
-    && rm -f /root/.ssh/id_ed25519
-
+    && git clone ssh://quintenwolff%40outlook.de@anvil.works:2222/LT5M56WDZC6O5IVA.git
 
 # Default command: run anvil-app-server with your app
 CMD ["anvil-app-server", "--app", "LT5M56WDZC6O5IVA"]
