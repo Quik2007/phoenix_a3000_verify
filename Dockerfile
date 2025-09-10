@@ -49,5 +49,7 @@ RUN chown -R ${APP_USER}:${APP_USER} /app
 USER ${APP_USER}
 ENV PATH=/home/${APP_USER}/.local/bin:$PATH
 
+RUN anvil-app-server || true
+
 # Default command: run anvil-app-server with your app
 CMD anvil-app-server --database jdbc:postgresql://postgres/anvil?user=anvil --app LT5M56WDZC6O5IVA --port 3030
